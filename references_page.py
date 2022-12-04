@@ -4,7 +4,7 @@ import streamlit as st
 def show_references():
     st.title("References")
 
-    st.write("""This notebook is prepared by the notes from Unsupervised Learning, Recommenders, 
+    st.write("""The code of this project is prepared by my notes from Unsupervised Learning, Recommenders, 
     Reinforcement Learning by DeepLearning.AI Coursera. I would like to thank Andrew NG for this great lecture. 
     The training module and vectorized cost function are directly copied from the lecture. I prepared the data from scratch, 
     get input data, made the code modular (app.py, train_predict_page.py and utils.py). Also, you can run the project on a 
