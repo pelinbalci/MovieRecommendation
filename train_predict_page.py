@@ -16,38 +16,45 @@ def show_train_predict_page():
 
     # Call functions
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
-    num_users, num_movies, movieList = utils.get_info(df_ratings, df_movie)
+    num_users, num_movies, movieList = utils.get_info(df_ratings, df_ratings_mean)
     Y, R, my_ratings = utils.create_matrices(df_ratings, num_movies)
 
     # Prapre Dataset(select 30 most rated movies)
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df = utils.prepare_selected_movies(df_ratings_mean_temp)
+    # all_genres_df_2 = all_genres_df.sample(frac=1)
 
-    # # ## NEW
-    # # initializing with a random number
-    # if "rn" not in st.session_state:
-    #     all_genres_df = all_genres_df.sample(frac=1)
-    #     st.session_state["rn"] = all_genres_df
-    #
-    # # callback function to change the random number stored in state
-    # def change_number(all_genres_df):
-    #     all_genres_df = all_genres_df.sample(frac=1)
-    #     st.session_state["rn"] = all_genres_df
-    #     return
-    #
-    # st.write(st.session_state.rn)
-    #
-    # ## button to generate a new random number
-    # st.button("New ratings?", on_click=change_number(all_genres_df))
-    # if st.button:
-    #     all_genres_df = all_genres_df.sample(frac=1)
+    if "movie_order" not in st.session_state:
+        st.session_state["movie_order"] = list(all_genres_df["movie_id_2"])
 
+    selection = st.radio("Select Movies based on: ", ("Most Rated", "Highest Rated", "Less Known"))
+    if selection == "Most Rated":
+        all_genres_df_temp_1 = all_genres_df.sort_values(by="number_of_ratings", ascending=False)
+        all_genres_df_temp_index_1 = list(all_genres_df_temp_1["movie_id_2"])
+        st.session_state.movie_order = all_genres_df_temp_index_1
+        print(all_genres_df_temp_index_1)
+    elif selection == "Highest Rated":
+        all_genres_df_temp_2 = all_genres_df.sort_values(by="mean_rating", ascending=False)
+        all_genres_df_temp_index_2 = list(all_genres_df_temp_2["movie_id_2"])
+        st.session_state.movie_order = all_genres_df_temp_index_2
+        print(all_genres_df_temp_index_2)
+    else:
+        all_genres_df_temp_3 = all_genres_df.sort_values(by="number_of_ratings", ascending=True)
+        all_genres_df_temp_index_3 = list(all_genres_df_temp_3["movie_id_2"])
+        st.session_state.movie_order = all_genres_df_temp_index_3
+        print(all_genres_df_temp_index_3)
+
+    all_genres_df_2 = all_genres_df.reindex(st.session_state["movie_order"])
+
+
+    # all_genres_df_2 = all_genres_df.copy()
     comedy_b = st.checkbox('Rate comedies?')
     if comedy_b:
+        # all_genres_df_2 = all_genres_df.sample(frac=1)
         # filter dataframe based on genre
-        selected_movies = all_genres_df[all_genres_df['genres'].str.contains("Comedy")]
+        selected_movies = all_genres_df_2[all_genres_df_2['genres'].str.contains("Comedy")]
         for i in range(3):
-            my_ratings, all_genres_df = utils.get_ratings_from_user_2(i, selected_movies, my_ratings, all_genres_df)
+            my_ratings, all_genres_df_2 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings, all_genres_df_2)
 
     st.write('Thank you:) Wait for the recommendation!')
     st.write('\n\nOriginal vs Predicted ratings:\n')

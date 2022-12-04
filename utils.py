@@ -23,10 +23,9 @@ def read_data():
     df_ratings_mean = pd.merge(df_ratings_mean, df_movie, on='movieId', how='left')
 
     # flag the last duplicated movie based on title
-    df_ratings_mean['Last_dup1'] = np.where(df_ratings_mean['title'].duplicated(keep='last'), 0, 1)
-
+    df_ratings_mean['Last_dup1'] = np.where(df_ratings_mean['title'].duplicated(keep='first'), 1, 0)
     # movieIds of the last duplicated movies
-    duplicated_movies_list = list(df_ratings_mean[df_ratings_mean.Last_dup1 == 0]["movieId"])
+    duplicated_movies_list = list(df_ratings_mean[df_ratings_mean.Last_dup1 == 1]["movieId"])
 
     # remove last duplicated movies based on title
     df_ratings_mean = df_ratings_mean.drop_duplicates(subset=["title"], keep="first")
@@ -35,6 +34,7 @@ def read_data():
     df_ratings = df_ratings[~df_ratings.movieId.isin(duplicated_movies_list)]
 
     # create new id
+    df_ratings_mean = df_ratings_mean.reset_index()
     df_ratings_mean['movie_id_2'] = df_ratings_mean.index
 
     print(len(list(set(df_ratings_mean.title))))
@@ -158,6 +158,11 @@ def prepare_selected_movies(df_ratings_mean):
         genre_temp = df_ratings_mean[np.array(df_ratings_mean.filter(regex=genre) == 1).reshape
         (len(df_ratings_mean), )].sort_values(
             by='number_of_ratings', ascending=False).head(30)
+
+        # remove already selected movies
+        genre_temp_movie_id = list(genre_temp["movie_id_2"])
+        df_ratings_mean = df_ratings_mean[~df_ratings_mean.movie_id_2.isin(genre_temp_movie_id)]
+
         all_genres.append(genre_temp)
     all_genres_df = pd.concat(all_genres)
 
@@ -191,7 +196,7 @@ def get_ratings_from_user(df_ratings_mean, genre, my_ratings):
     return my_ratings, df_ratings_mean
 
 
-def get_ratings_from_user_2(i, selected_movies, my_ratings, all_genres_df):
+def get_ratings_from_user_2(movieList, i, selected_movies, my_ratings, all_genres_df):
     print('NEW RATING')
     print('Movie:', selected_movies.title.iloc[i])
     print('Movie_id_2: {}, movieId: {}'.format(selected_movies.movie_id_2.iloc[0],
@@ -201,10 +206,16 @@ def get_ratings_from_user_2(i, selected_movies, my_ratings, all_genres_df):
 
     # original movie id
     current_movieId = selected_movies.movieId.iloc[i]
+    st.write("movieID", current_movieId)
 
     # store ratings based on movie_id_2
     current_movie_id_2 = selected_movies.movie_id_2.iloc[i]
+    st.write("movie_id_'", current_movie_id_2)
     my_ratings[current_movie_id_2] = rating_i
+
+    print('control')
+    print(selected_movies[selected_movies.movie_id_2 == current_movie_id_2]['title'])
+    print(movieList[current_movie_id_2])
 
     # remove movie not to show the same movie to user.
     all_genres_df = all_genres_df[(all_genres_df.movieId != current_movieId)]
