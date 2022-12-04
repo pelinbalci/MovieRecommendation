@@ -237,7 +237,7 @@ def normalizeRatings(Y, R):
     return (Ynorm, Ymean)
 
 
-def train_data(Y, Ynorm, R):
+def train_data(Y, Ynorm, R, selected_optimizer, iteration_number=100, feature_number=100):
     """
 
     :param Y: Y matrix includes original ratings and new user's ratings
@@ -247,7 +247,7 @@ def train_data(Y, Ynorm, R):
     """
     #  Useful Values
     num_movies, num_users = Y.shape
-    num_features = 5
+    num_features = feature_number
 
     # Set Initial Parameters (W, X), use tf.Variable to track these variables
     tf.random.set_seed(1234)  # for consistent results
@@ -256,9 +256,12 @@ def train_data(Y, Ynorm, R):
     b = tf.Variable(tf.random.normal((1, num_users), dtype=tf.float64), name='b')
 
     # Instantiate an optimizer.
-    optimizer = keras.optimizers.Adam(learning_rate=1e-1)
+    if selected_optimizer == None:
+        optimizer = keras.optimizers.Adam(learning_rate=1e-1)
+    else:
+        optimizer = selected_optimizer
 
-    iterations = 10
+    iterations = iteration_number
     lambda_ = 1
     for iter in range(iterations):
         # Use TensorFlow’s GradientTape

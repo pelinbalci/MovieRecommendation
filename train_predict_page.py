@@ -7,12 +7,22 @@ import pickle
 import numpy as np
 import pandas as pd
 import utils
-
+from tensorflow import keras
 
 def show_train_predict_page():
     st.title("Movie Recommendation")
-    st.write("""### Let's start with your own ratings!  :)""")
-    st.write("Give 0, if you haven't seen the movie yet. Give ratings from 1 to 5.")
+    st.write("""### Let's start with model training hyper-parameters!""")
+    st.write("You can simply enter the default values:) ")
+
+    iteration_number = st.number_input("Number of Iterations (default: 100)", min_value=10, max_value=100, step=10)
+    feature_number = st.number_input("Number of Movie Features (default: 100)", min_value=10, max_value=100, step=10)
+    opt_select = st.radio("Optimization Type (default: Adam)", ("Adam", "SGD", "Less Known"))
+    if opt_select == "Adam":
+        selected_optimizer = keras.optimizers.Adam(learning_rate=1e-1)
+    elif opt_select == 'SGD':
+        selected_optimizer = keras.optimizers.SGD(learning_rate=1e-1)
+    else:
+        selected_optimizer = keras.optimizers.RMSprop(learning_rate=1e-1)
 
     # Call functions
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
@@ -26,6 +36,10 @@ def show_train_predict_page():
 
     if "movie_order" not in st.session_state:
         st.session_state["movie_order"] = list(all_genres_df["movie_id_2"])
+
+    st.write("""### It is time to enter your own ratings!  :)""")
+    st.write("""#### Choose the genres you want to rate :)""")
+    st.write("Give 0, if you haven't seen the movie yet. Give ratings from 1 to 5.")
 
     selection = st.radio("Select Movies based on: ", ("Most Rated", "Highest Rated", "Less Known"))
     if selection == "Most Rated":
@@ -88,7 +102,7 @@ def show_train_predict_page():
         Y = np.c_[my_ratings, Y]  # Add new user ratings to Y
         R = np.c_[(my_ratings != 0).astype(int), R]  # Add new user indicator matrix to R
         Ynorm, Ymean = utils.normalizeRatings(Y, R)  # Normalize the Dataset
-        W, X, b = utils.train_data(Y, Ynorm, R)  # TRAIN
+        W, X, b = utils.train_data(Y, Ynorm, R, selected_optimizer, iteration_number, feature_number)  # TRAIN
         st.subheader('These are the predictions for your own ratings.')
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
         st.subheader('Recommended movies! Enjoy!')
