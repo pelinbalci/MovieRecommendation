@@ -126,15 +126,14 @@ def cofi_cost_func_v(X, W, b, Y, R, lambda_):
     return J
 
 
-def prepare_selected_movies(df_movie, df_ratings_mean):
+def prepare_selected_movies(df_ratings_mean):
     """
-    Return selected movies to display on the screen.
-    :param df_movie: original dataframe
+    Return selected movies(Most rated 30 movies for each genre) to display on the screen.
     :param df_ratings_mean: dataframe includes mean ratings for each movie
     :return: selected movies
     """
     # Get unique genre types from df_movie
-    genre_types = df_movie.genres
+    genre_types = df_ratings_mean.genres
     genre_types_m = genre_types.str.split('|', expand=True)
     all_genres = []
     for i in range(10):
@@ -153,7 +152,7 @@ def prepare_selected_movies(df_movie, df_ratings_mean):
     for col in list_genre:
         df_ratings_mean[col] = np.where(df_ratings_mean['genres'].str.contains(col) == True, 1, 0)
 
-    # Selected movies for all genre types
+    # Selected movies for all genre types (Most rated 30 movies for each genre)
     all_genres = []
     for genre in list_genre:
         genre_temp = df_ratings_mean[np.array(df_ratings_mean.filter(regex=genre) == 1).reshape
@@ -182,7 +181,7 @@ def get_ratings_from_user(df_ratings_mean, genre, my_ratings):
         print('NEW RATING')
         print('Movie:', selected_movies.title.iloc[i])
         print('Movie_id_2: {}, movieId: {}'.format(selected_movies.movie_id_2.iloc[0], selected_movies.movieId.iloc[0]))
-        rating_i = int(input('Your rating: '))
+        rating_i = st.number_input(selected_movies.title.iloc[i], min_value=0, max_value=5, step=1)
         current_movieId = selected_movies.movieId.iloc[i]
         current_movie_id_2 = selected_movies.movie_id_2.iloc[i]
         my_ratings[current_movie_id_2] = rating_i
@@ -216,7 +215,7 @@ def train_data(Y, Ynorm, R):
     """
     #  Useful Values
     num_movies, num_users = Y.shape
-    num_features = 100
+    num_features = 5
 
     # Set Initial Parameters (W, X), use tf.Variable to track these variables
     tf.random.set_seed(1234)  # for consistent results
@@ -227,7 +226,7 @@ def train_data(Y, Ynorm, R):
     # Instantiate an optimizer.
     optimizer = keras.optimizers.Adam(learning_rate=1e-1)
 
-    iterations = 100
+    iterations = 10
     lambda_ = 1
     for iter in range(iterations):
         # Use TensorFlow’s GradientTape
@@ -262,7 +261,7 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
     # Find the predictions for the new user (user id is 0)
     my_predictions = pm[:, 0]
 
-    st.write('\n\nOriginal vs Predicted ratings:\n')
+    st.write('\n\nOriginal ratings:\n')
     for i in range(len(my_ratings)):
         if my_ratings[i] > 0:
             st.write(f'Original {my_ratings[i]}, Predicted {my_predictions[i]:0.2f} for {movieList[i]}')
