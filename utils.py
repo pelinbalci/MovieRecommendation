@@ -191,6 +191,27 @@ def get_ratings_from_user(df_ratings_mean, genre, my_ratings):
     return my_ratings, df_ratings_mean
 
 
+def get_ratings_from_user_2(i, selected_movies, my_ratings, all_genres_df):
+    print('NEW RATING')
+    print('Movie:', selected_movies.title.iloc[i])
+    print('Movie_id_2: {}, movieId: {}'.format(selected_movies.movie_id_2.iloc[0],
+                                               selected_movies.movieId.iloc[0]))
+    # get rating from user
+    rating_i = st.number_input(selected_movies.title.iloc[i], min_value=0, max_value=5, step=1)
+
+    # original movie id
+    current_movieId = selected_movies.movieId.iloc[i]
+
+    # store ratings based on movie_id_2
+    current_movie_id_2 = selected_movies.movie_id_2.iloc[i]
+    my_ratings[current_movie_id_2] = rating_i
+
+    # remove movie not to show the same movie to user.
+    all_genres_df = all_genres_df[(all_genres_df.movieId != current_movieId)]
+
+    return my_ratings, all_genres_df
+
+
 # Normalize Y matirx
 def normalizeRatings(Y, R):
     """

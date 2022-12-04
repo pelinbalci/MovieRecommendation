@@ -23,7 +23,7 @@ def show_train_predict_page():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    # ## NEW
+    # # ## NEW
     # # initializing with a random number
     # if "rn" not in st.session_state:
     #     all_genres_df = all_genres_df.sample(frac=1)
@@ -39,34 +39,15 @@ def show_train_predict_page():
     #
     # ## button to generate a new random number
     # st.button("New ratings?", on_click=change_number(all_genres_df))
-    # # if st.button:
-    # #     all_genres_df = all_genres_df.sample(frac=1)
+    # if st.button:
+    #     all_genres_df = all_genres_df.sample(frac=1)
 
     comedy_b = st.checkbox('Rate comedies?')
     if comedy_b:
         # filter dataframe based on genre
         selected_movies = all_genres_df[all_genres_df['genres'].str.contains("Comedy")]
         for i in range(3):
-            print('NEW RATING')
-            print('Movie:', selected_movies.title.iloc[i])
-            print('Movie_id_2: {}, movieId: {}'.format(selected_movies.movie_id_2.iloc[0],
-                                                       selected_movies.movieId.iloc[0]))
-            # get rating from user
-            rating_i = st.number_input(selected_movies.title.iloc[i], min_value=0, max_value=5, step=1)
-
-            # original movie id
-            current_movieId = selected_movies.movieId.iloc[i]
-
-            # store ratings based on movie_id_2
-            current_movie_id_2 = selected_movies.movie_id_2.iloc[i]
-            my_ratings[current_movie_id_2] = rating_i
-
-            print('control')
-            print(df_ratings_mean[df_ratings_mean.movie_id_2 == current_movie_id_2]['title'])
-            print(movieList[current_movie_id_2])
-
-            # remove movie not to show the same movie to user.
-            all_genres_df = all_genres_df[(all_genres_df.movieId != current_movieId)]
+            my_ratings, all_genres_df = utils.get_ratings_from_user_2(i, selected_movies, my_ratings, all_genres_df)
 
     st.write('Thank you:) Wait for the recommendation!')
     st.write('\n\nOriginal vs Predicted ratings:\n')
