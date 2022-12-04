@@ -206,11 +206,11 @@ def get_ratings_from_user_2(movieList, i, selected_movies, my_ratings, all_genre
 
     # original movie id
     current_movieId = selected_movies.movieId.iloc[i]
-    st.write("movieID", current_movieId)
+    # st.write("movieID", current_movieId)
 
     # store ratings based on movie_id_2
     current_movie_id_2 = selected_movies.movie_id_2.iloc[i]
-    st.write("movie_id_'", current_movie_id_2)
+    # st.write("movie_id_'", current_movie_id_2)
     my_ratings[current_movie_id_2] = rating_i
 
     print('control')

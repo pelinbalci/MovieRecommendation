@@ -48,13 +48,32 @@ def show_train_predict_page():
 
 
     # all_genres_df_2 = all_genres_df.copy()
-    comedy_b = st.checkbox('Rate comedies?')
-    if comedy_b:
+    checkbox_b = st.checkbox('Rate comedies?')
+    if checkbox_b:
         # all_genres_df_2 = all_genres_df.sample(frac=1)
         # filter dataframe based on genre
         selected_movies = all_genres_df_2[all_genres_df_2['genres'].str.contains("Comedy")]
         for i in range(3):
-            my_ratings, all_genres_df_2 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings, all_genres_df_2)
+            my_ratings, all_genres_df_2 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings,
+                                                                        all_genres_df_2)
+
+    checkbox_b = st.checkbox('Rate sci-fi?')
+    if checkbox_b:
+        # all_genres_df_2 = all_genres_df.sample(frac=1)
+        # filter dataframe based on genre
+        selected_movies = all_genres_df_2[all_genres_df_2['genres'].str.contains("Sci-Fi")]
+        for i in range(3):
+            my_ratings, all_genres_df_2 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings,
+                                                                        all_genres_df_2)
+
+    checkbox_b = st.checkbox('Rate romance?')
+    if checkbox_b:
+        # all_genres_df_2 = all_genres_df.sample(frac=1)
+        # filter dataframe based on genre
+        selected_movies = all_genres_df_2[all_genres_df_2['genres'].str.contains("Romance")]
+        for i in range(3):
+            my_ratings, all_genres_df_2 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings,
+                                                                        all_genres_df_2)
 
     st.write('Thank you:) Wait for the recommendation!')
     st.write('\n\nOriginal vs Predicted ratings:\n')
