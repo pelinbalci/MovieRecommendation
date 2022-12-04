@@ -3,6 +3,7 @@ import utils
 from matplotlib import pyplot as plt
 import pandas as pd
 
+
 def show_explore_page():
     st.write("""## Best Rated Movies""")
     df_ratings, df_ratings_mean, df_movie = utils.read_data()

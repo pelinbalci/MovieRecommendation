@@ -8,7 +8,7 @@ from train_predict_page import show_train_predict_page
 from explore_page import show_explore_page
 from references_page import show_references
 
-page = st.sidebar.selectbox("Pages", ("Predict", "References", "Explore"))
+page = st.sidebar.selectbox("Pages", ("Predict", "Explore", "References"))
 
 if page == "Predict":
     show_train_predict_page()

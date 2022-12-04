@@ -10,7 +10,6 @@ def show_references():
     get input data, made the code modular (app.py, train_predict_page.py and utils.py). Also, you can run the project on a 
     dashboard which is prepared by streamlit:)""")
 
-
     st.write("""The data set is derived from the 
     [MovieLens "ml-latest-small"](https://grouplens.org/datasets/movielens/latest/) dataset.   
     [F. Maxwell Harper and Joseph A. Konstan. 2015. The MovieLens Datasets: History and Context. ACM Transactions on 
