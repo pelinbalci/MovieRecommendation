@@ -5,10 +5,10 @@ from tensorflow import keras
 import streamlit as st
 
 def read_data():
-    " Read & Create Data"
+    " Read & Create data"
     # Read data
-    df_movie = pd.read_csv('./data/ml-latest-small/movies.csv')
-    df_ratings = pd.read_csv('./data/ml-latest-small/ratings.csv')
+    df_movie = pd.read_csv('data/ml-latest-small/movies.csv')
+    df_ratings = pd.read_csv('data/ml-latest-small/ratings.csv')
     print(df_movie.shape)
     print(df_ratings.shape)
 
