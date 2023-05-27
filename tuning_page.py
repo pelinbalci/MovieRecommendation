@@ -18,8 +18,7 @@ def show_tuning_page():
     else:
         selected_optimizer = keras.optimizers.RMSprop(learning_rate=1e-1)
 
-    param_dict = {'iteration_number': iteration_number,
-                  "feature_number": feature_number,
-                  "selected_optimizer": selected_optimizer}
-
-    return param_dict
+    if st.button("Next"):
+        st.session_state["iteration_number"] = iteration_number
+        st.session_state["feature_number"] = feature_number
+        st.session_state["selected_optimizer"] = selected_optimizer

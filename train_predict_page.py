@@ -10,10 +10,9 @@ from tuning_page import show_tuning_page
 
 def show_train_predict_page():
     st.title("Movie Recommendation")
-    st.write("""### Let's start with model training hyper-parameters!""")
-    st.write("You can simply enter the default values:) ")
+    # st.write("""### Let's start with model training hyper-parameters!""")
+    # st.write("You can simply enter the default values:) ")
 
-    param_dict = show_tuning_page()
     # iteration_number = st.number_input("Number of Iterations (default: 100)", min_value=10, max_value=100, step=10)
     # feature_number = st.number_input("Number of Movie Features (default: 100)", min_value=10, max_value=100, step=10)
     # opt_select = st.radio("Optimization Type (default: Adam)", ("Adam", "SGD", "Less Known"))
@@ -25,9 +24,14 @@ def show_train_predict_page():
     # else:
     #     selected_optimizer = keras.optimizers.RMSprop(learning_rate=1e-1)
 
-    iteration_number = param_dict.get("iteration_number", 100)
-    feature_number = param_dict.get("feature_number", 100)
-    selected_optimizer = param_dict.get("selected_optimizer", "Adam")
+    # param_dict = show_tuning_page()
+    # iteration_number = param_dict.get("iteration_number", 100)
+    # feature_number = param_dict.get("feature_number", 100)
+    # selected_optimizer = param_dict.get("selected_optimizer", "Adam")
+
+    iteration_number = st.session_state.get("iteration_number")
+    feature_number = st.session_state.get("iteration_number")
+    selected_optimizer = st.session_state.get("iteration_number")
 
     # Call functions
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
