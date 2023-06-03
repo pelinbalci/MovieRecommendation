@@ -29,9 +29,22 @@ def show_train_predict_page():
     # feature_number = param_dict.get("feature_number", 100)
     # selected_optimizer = param_dict.get("selected_optimizer", "Adam")
 
-    iteration_number = st.session_state.get("iteration_number")
-    feature_number = st.session_state.get("iteration_number")
-    selected_optimizer = st.session_state.get("iteration_number")
+    iteration_number = st.session_state.get("iteration_number", 100)
+    feature_number = st.session_state.get("feature_number", 100)
+    selected_optimizer = st.session_state.get("selected_optimizer", keras.optimizers.Adam(learning_rate=1e-1))
+
+    st.write("""#### Selected Parameters""")
+    st.write(f"iteration number: {iteration_number}")
+    st.write(f"feature number: {feature_number}")
+    if "adam" in str(selected_optimizer).lower():
+        st.write(f"selected_optimizer: {'Adam'}")
+    elif "sgd" in str(selected_optimizer).lower():
+        st.write(f"selected_optimizer: {'SGD'}")
+    elif "rmsprop" in str(selected_optimizer).lower():
+        st.write(f"selected_optimizer: {'RMSProp'}")
+    else:
+        st.write("Please choose optimizer in Tune Model Page.")
+    st.write("You can change these parameters on Tune the Model page")
 
     # Call functions
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
@@ -46,8 +59,7 @@ def show_train_predict_page():
     if "movie_order" not in st.session_state:
         st.session_state["movie_order"] = list(all_genres_df["movie_id_2"])
 
-    st.write("""### It is time to enter your own ratings!  :)""")
-    st.write("""#### Choose the genres you want to rate :)""")
+    st.write("""#### It is time to enter your own ratings!""")
     st.write("Give 0, if you haven't seen the movie yet. Give ratings from 1 to 5.")
 
     selection = st.radio("Select Movies based on: ", ("Most Rated", "Highest Rated", "Less Known"))
