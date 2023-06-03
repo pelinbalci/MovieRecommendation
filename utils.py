@@ -9,9 +9,11 @@ def read_data():
     # Read data
     df_movie = pd.read_csv('data/ml-latest-small/movies.csv')
     df_ratings = pd.read_csv('data/ml-latest-small/ratings.csv')
+    df_movie.dropna()
     print(df_movie.shape)
     print(df_ratings.shape)
 
+    df_movie[['title', 'release_year']] = df_movie['title'].str.extract(r'(.+)\s\((\d+)\)')
     df_ratings['datetime'] = pd.to_datetime(df_ratings['timestamp'], unit='s')
 
     # Create mean ratings
@@ -21,6 +23,10 @@ def read_data():
 
     # Merge
     df_ratings_mean = pd.merge(df_ratings_mean, df_movie, on='movieId', how='left')
+
+    # remove empty title'd - year movies # TODO: will be fixed
+    df_ratings_mean = df_ratings_mean.dropna()
+    df_ratings_mean.release_year = pd.to_datetime(df_ratings_mean.release_year)
 
     # flag the last duplicated movie based on title
     df_ratings_mean['Last_dup1'] = np.where(df_ratings_mean['title'].duplicated(keep='first'), 1, 0)
@@ -312,3 +318,7 @@ def give_recommendation(my_predictions, my_rated, movieList):
         j = idx_sorted_pred[i]
         if j not in my_rated:
             st.write(f'Predicting rating {my_predictions[j]:0.2f} for movie {movieList[j]}')
+
+
+read_data()
+print("")
