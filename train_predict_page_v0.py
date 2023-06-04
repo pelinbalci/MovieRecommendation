@@ -8,7 +8,7 @@ from tensorflow import keras
 from tuning_page import show_tuning_page
 
 
-def show_train_predict_page():
+def show_train_predict_page_v0():
     st.title("Movie Recommendation")
     # st.write("""### Let's start with model training hyper-parameters!""")
     # st.write("You can simply enter the default values:) ")
@@ -53,7 +53,7 @@ def show_train_predict_page():
 
     # Prapre Dataset(select 30 most rated movies)
     df_ratings_mean_temp = df_ratings_mean.copy()
-    all_genres_df = utils.prepare_selected_movies(df_ratings_mean_temp)
+    all_genres_df, _ = utils.prepare_selected_movies(df_ratings_mean_temp)
     # all_genres_df_2 = all_genres_df.sample(frac=1)
 
     if "movie_order" not in st.session_state:
@@ -110,10 +110,10 @@ def show_train_predict_page():
                                                                         all_genres_df_2)
 
     st.write('Thank you:) Wait for the recommendation!')
-    st.write('\n\nOriginal vs Predicted ratings:\n')
+    st.write('\n\nOriginal ratings:\n')
     for i in range(len(my_ratings)):
         if my_ratings[i] > 0:
-            st.write(f'Original {my_ratings[i]}, for {movieList[i]}')
+            st.write(f'{movieList[i]} : {my_ratings[i]}')
 
     train_button = st.button("Recommend movies!")
     if train_button:
@@ -126,4 +126,4 @@ def show_train_predict_page():
         st.subheader('These are the predictions for your own ratings.')
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
         st.subheader('Recommended movies! Enjoy!')
-        utils.give_recommendation(my_predictions, my_rated, movieList)
+        utils.give_recommendation(my_predictions, my_rated, movieList, df_ratings_mean)
