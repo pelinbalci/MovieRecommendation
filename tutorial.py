@@ -47,7 +47,6 @@ def show_tutorial():
 
     st.write("""
     - v0: The first version doesn't have the randomness in the movie selection.
-    - v1: Includes randomness. It also shows the samples from db and selected parameters. This page can be used for 
-    development. 
+    - v1: Includes randomness. It also shows the samples from db and selected parameters. This page can be used for development. 
     - v2: The parameters and some of the technical details are removed. The simplest version so far.  
     """)
