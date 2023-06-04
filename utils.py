@@ -163,7 +163,7 @@ def prepare_selected_movies(df_ratings_mean):
     for genre in list_genre:
         genre_temp = df_ratings_mean[np.array(df_ratings_mean.filter(regex=genre) == 1).reshape
         (len(df_ratings_mean), )].sort_values(
-            by='number_of_ratings', ascending=False).head(30)
+            by='number_of_ratings', ascending=False)
 
         # remove already selected movies
         genre_temp_movie_id = list(genre_temp["movie_id_2"])
@@ -172,7 +172,7 @@ def prepare_selected_movies(df_ratings_mean):
         all_genres.append(genre_temp)
     all_genres_df = pd.concat(all_genres)
 
-    return all_genres_df
+    return all_genres_df, list_genre
 
 
 # Inputs from user
@@ -207,8 +207,10 @@ def get_ratings_from_user_2(movieList, i, selected_movies, my_ratings, all_genre
     print('Movie:', selected_movies.title.iloc[i])
     print('Movie_id_2: {}, movieId: {}'.format(selected_movies.movie_id_2.iloc[0],
                                                selected_movies.movieId.iloc[0]))
+
+    movie_title_type = str(selected_movies.title.iloc[i]) + ' ' + str(selected_movies.genres.iloc[i])
     # get rating from user
-    rating_i = st.number_input(selected_movies.title.iloc[i], min_value=0, max_value=5, step=1)
+    rating_i = st.number_input(movie_title_type, min_value=0, max_value=5, step=1)
 
     # original movie id
     current_movieId = selected_movies.movieId.iloc[i]
@@ -305,20 +307,31 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
     st.write('\n\nOriginal ratings:\n')
     for i in range(len(my_ratings)):
         if my_ratings[i] > 0:
-            st.write(f'Original {my_ratings[i]}, Predicted {my_predictions[i]:0.2f} for {movieList[i]}')
+            st.write(f'{movieList[i]}: Your rating is {my_ratings[i]}, Predicted rating is {my_predictions[i]:0.2f}')
 
     return my_predictions
 
 
-def give_recommendation(my_predictions, my_rated, movieList):
+def give_recommendation(my_predictions, my_rated, movieList, df_ratings_mean):
     # sort predictions
     idx_sorted_pred = tf.argsort(my_predictions, direction='DESCENDING')
 
+    recommendation_dict = {}
     for i in range(10):
         j = idx_sorted_pred[i]
         if j not in my_rated:
-            st.write(f'Predicting rating {my_predictions[j]:0.2f} for movie {movieList[j]}')
+            # st.write(f'Predicting rating {my_predictions[j]:0.2f} for movie {movieList[j]}')
+            recommendation_dict[movieList[j]] = my_predictions[j]
+
+    recommended_table = pd.DataFrame.from_dict([recommendation_dict])
+    recommended_table = recommended_table.T.reset_index()
+    recommended_table.columns = ['title', 'prediction']
+
+    merged = pd.merge(recommended_table, df_ratings_mean[['title', 'genres']], on='title')
+    merged = merged[['title', 'genres', 'prediction']]
+    st.table(merged)
 
 
-read_data()
-print("")
+# df_ratings, df_ratings_mean, df_movie = read_data()
+# prepare_selected_movies(df_ratings_mean)
+# print("")
