@@ -35,7 +35,7 @@ def show_train_predict_page_v1():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    randomstate_user = st.slider('Give me a random number', min_value=1, max_value=100, value=42, step=1)
+    randomstate_user = st.slider('Magic number', min_value=1, max_value=100, value=42, step=1)
     movienumber_user = st.slider('How many movies do you want to rate', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user

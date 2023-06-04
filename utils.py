@@ -343,7 +343,7 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
         pred_table = pred_table[['title', 'original_rating', 'predicted_rating']]
         st.table(pred_table)
     else:
-        st.write('If you give your own ratings we ca offer you better recommendations:)')
+        st.write('If you give your own ratings we can offer you better recommendations:)')
 
     return my_predictions
 
@@ -365,23 +365,25 @@ def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
 
     # filter the recommendations based on selected genre
     selected_genres = st.session_state.get("selected_genre", "no_selection")
-    st.write(st.session_state.get("selected_genre", "no_selection"))
+    # st.write(st.session_state.get("selected_genre", "no_selection"))
 
     if len(selected_genres) > 0:
-        st.write('SELECTION')
+        st.write('The model will give better results with your input. Thank you.')
         merged = pd.merge(initial_recommended_table, all_genres_df_2, on='title')
         recommended_table = filter_genre(selected_genres, merged)
 
         # limit the table with 10
         if len(recommended_table) >= 10:
+            st.write("It is hard to select but these are the best movies we can find for you:)")
             recommended_table = recommended_table.head(10)
 
         if len(recommended_table) == 0:
+            st.write("We can't find any movies based on your selected genre. Try to rate more movies!")
             merged = pd.merge(initial_recommended_table, all_genres_df_2[['title', 'genres']], on='title')
             recommended_table = merged[['title', 'genres', 'prediction']].head(10)
 
     else:
-        st.write('NO SELECTION')
+        st.write('recommenation with no ratings from user')
         merged = pd.merge(initial_recommended_table, all_genres_df_2[['title', 'genres']], on='title')
         recommended_table = merged[['title', 'genres', 'prediction']].head(10)
 
