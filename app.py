@@ -5,13 +5,13 @@ from references_page import show_references
 from tuning_page import show_tuning_page
 from train_predict_page_v1 import show_train_predict_page_v1
 
-page = st.sidebar.selectbox("Pages", ("Recommendation_v0", "Recommendation_v1", "Tune the Model", "Explore", "References"))
+page = st.sidebar.selectbox("Pages", ("Recommendation_v1", "Recommendation_v0", "Tune the Model", "Explore", "References"))
 
-if page == "Recommendation_v0":
-    show_train_predict_page_v0()
-
-elif page == "Recommendation_v1":
+if page == "Recommendation_v1":
     show_train_predict_page_v1()
+
+elif page == "Recommendation_v0":
+    show_train_predict_page_v0()
 
 elif page == "Tune the Model":
     show_tuning_page()
