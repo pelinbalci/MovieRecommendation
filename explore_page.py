@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import pandas as pd
 import altair as alt
 
+
 def show_explore_page():
     st.write("""## General Stats""")
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
@@ -12,6 +13,12 @@ def show_explore_page():
                                'Number of Movie': [num_movies],
                                'How many Ratings': [df_ratings_mean.number_of_ratings.sum()]})
     st.table(df_summary)
+
+    all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean)
+    genre_movies = all_genres_df.sum().reset_index()
+    genre_movies = genre_movies[genre_movies['index'].isin(list_genre)]
+    genre_movies.columns = ['Genre', 'Number of Movies']
+    st.table(genre_movies)
 
     st.write("""### Best Rated Movies""")
     best_ = df_ratings_mean[df_ratings_mean.number_of_ratings>=20]
