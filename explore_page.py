@@ -10,8 +10,8 @@ def show_explore_page():
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
     num_users, num_movies, movieList = utils.get_info(df_ratings, df_ratings_mean)
     df_summary = pd.DataFrame({'Total User': [num_users],
-                               'Number of Movie': [num_movies],
-                               'How many Ratings': [df_ratings_mean.number_of_ratings.sum()]})
+                               'Number of Movies': [num_movies],
+                               'Number of Ratings': [df_ratings_mean.number_of_ratings.sum()]})
     st.table(df_summary)
 
     # number of genres
@@ -22,7 +22,7 @@ def show_explore_page():
     st.table(genre_movies)
 
     st.write("""### Best Rated Movies""")
-    best_ = df_ratings_mean[df_ratings_mean.number_of_ratings>=20]
+    best_ = df_ratings_mean[df_ratings_mean.number_of_ratings>=50]
     best_ = best_.sort_values(by='mean_rating', ascending=False)
     st.table(best_[['title', 'mean_rating', 'number_of_ratings']].head(5))
 
