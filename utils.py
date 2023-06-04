@@ -158,7 +158,7 @@ def prepare_selected_movies(df_ratings_mean):
     for col in list_genre:
         df_ratings_mean[col] = np.where(df_ratings_mean['genres'].str.contains(col) == True, 1, 0)
 
-    # Selected movies for all genre types (Most rated 30 movies for each genre)
+    # Selected movies for all genre types
     all_genres = []
     for genre in list_genre:
         genre_temp = df_ratings_mean[np.array(df_ratings_mean.filter(regex=genre) == 1).reshape
@@ -177,14 +177,14 @@ def prepare_selected_movies(df_ratings_mean):
 
 def filter_genre(selected_genres, all_genres_df_2):
     """
-    select 30 of each given genre. turn dataframe
+    select 50 of each given genre. turn dataframe
     """
     selected_genres_dflist = []
     for genre in selected_genres:
         print(genre)
         genre_temp = all_genres_df_2[np.array(all_genres_df_2.filter(regex=genre) == 1).reshape
         (len(all_genres_df_2), )].sort_values(
-            by='number_of_ratings', ascending=False).head(30)
+            by='number_of_ratings', ascending=False).head(50)
 
         # remove already selected movies
         genre_temp_movie_id = list(genre_temp["movie_id_2"])
@@ -353,7 +353,7 @@ def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
     idx_sorted_pred = tf.argsort(my_predictions, direction='DESCENDING')
 
     recommendation_dict = {}
-    for i in range(50):
+    for i in range(100):
         j = idx_sorted_pred[i]
         if j not in my_rated:
             # st.write(f'Predicting rating {my_predictions[j]:0.2f} for movie {movieList[j]}')
