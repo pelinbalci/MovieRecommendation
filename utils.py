@@ -175,6 +175,29 @@ def prepare_selected_movies(df_ratings_mean):
     return all_genres_df, list_genre
 
 
+def filter_genre(selected_genres, all_genres_df_2):
+    """
+    select 30 of each given genre. turn dataframe
+    """
+    selected_genres_dflist = []
+    for genre in selected_genres:
+        print(genre)
+        genre_temp = all_genres_df_2[np.array(all_genres_df_2.filter(regex=genre) == 1).reshape
+        (len(all_genres_df_2), )].sort_values(
+            by='number_of_ratings', ascending=False).head(30)
+
+        # remove already selected movies
+        genre_temp_movie_id = list(genre_temp["movie_id_2"])
+
+        all_genres_df_2 = all_genres_df_2[~all_genres_df_2.movie_id_2.isin(genre_temp_movie_id)]
+
+        selected_genres_dflist.append(genre_temp)
+        print(selected_genres_dflist)
+
+    df = pd.concat(selected_genres_dflist)
+    return df
+
+
 # Inputs from user
 def get_ratings_from_user(df_ratings_mean, genre, my_ratings):
     """
@@ -304,32 +327,65 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
     # Find the predictions for the new user (user id is 0)
     my_predictions = pm[:, 0]
 
-    st.write('\n\nThese are the predictions of the model for your own ratings.\n')
-    for i in range(len(my_ratings)):
-        if my_ratings[i] > 0:
-            st.write(f'{movieList[i]}: Your rating is {my_ratings[i]}, Predicted rating is {my_predictions[i]:0.2f}')
+    if sum(my_ratings) >0:
+        st.write('\n\nThese are the predictions of the model for your own ratings.\n')
+
+        prediction_dict = {}
+        for i in range(len(my_ratings)):
+            if my_ratings[i] > 0:
+                # st.write(f'{movieList[i]}: Your rating is {my_ratings[i]}, Predicted rating is {my_predictions[i]:0.2f}')
+                prediction_dict[movieList[i]] = [my_ratings[i], my_predictions[i]]
+
+        pred_table = pd.DataFrame.from_dict([prediction_dict])
+        pred_table = pred_table.T.reset_index()
+        pred_table.columns = ['title', 'ratings']
+        pred_table[['original_rating', 'predicted_rating']] = pd.DataFrame(pred_table.ratings.tolist(), index=pred_table.index)
+        pred_table = pred_table[['title', 'original_rating', 'predicted_rating']]
+        st.table(pred_table)
+    else:
+        st.write('If you give your own ratings we ca offer you better recommendations:)')
 
     return my_predictions
 
 
-def give_recommendation(my_predictions, my_rated, movieList, df_ratings_mean):
+def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
     # sort predictions
     idx_sorted_pred = tf.argsort(my_predictions, direction='DESCENDING')
 
     recommendation_dict = {}
-    for i in range(10):
+    for i in range(50):
         j = idx_sorted_pred[i]
         if j not in my_rated:
             # st.write(f'Predicting rating {my_predictions[j]:0.2f} for movie {movieList[j]}')
             recommendation_dict[movieList[j]] = my_predictions[j]
 
-    recommended_table = pd.DataFrame.from_dict([recommendation_dict])
-    recommended_table = recommended_table.T.reset_index()
-    recommended_table.columns = ['title', 'prediction']
+    initial_recommended_table = pd.DataFrame.from_dict([recommendation_dict])
+    initial_recommended_table = initial_recommended_table.T.reset_index()
+    initial_recommended_table.columns = ['title', 'prediction']
 
-    merged = pd.merge(recommended_table, df_ratings_mean[['title', 'genres']], on='title')
-    merged = merged[['title', 'genres', 'prediction']]
-    st.table(merged)
+    # filter the recommendations based on selected genre
+    selected_genres = st.session_state.get("selected_genre", "no_selection")
+    st.write(st.session_state.get("selected_genre", "no_selection"))
+
+    if len(selected_genres) > 0:
+        st.write('SELECTION')
+        merged = pd.merge(initial_recommended_table, all_genres_df_2, on='title')
+        recommended_table = filter_genre(selected_genres, merged)
+
+        # limit the table with 10
+        if len(recommended_table) >= 10:
+            recommended_table = recommended_table.head(10)
+
+        if len(recommended_table) == 0:
+            merged = pd.merge(initial_recommended_table, all_genres_df_2[['title', 'genres']], on='title')
+            recommended_table = merged[['title', 'genres', 'prediction']].head(10)
+
+    else:
+        st.write('NO SELECTION')
+        merged = pd.merge(initial_recommended_table, all_genres_df_2[['title', 'genres']], on='title')
+        recommended_table = merged[['title', 'genres', 'prediction']].head(10)
+
+    st.table(recommended_table)
 
 
 # df_ratings, df_ratings_mean, df_movie = read_data()
