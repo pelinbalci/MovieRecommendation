@@ -9,15 +9,13 @@ def show_tutorial():
     
     These are:
     
-    - Recommendation_v2
-    - Recommendation_v1
-    - Recommendation_v0
+    - Recommendation
     - Tune the Model
     - Explore
     - References
     """)
 
-    st.write(""" You can directly use Recommendation_v2 and click the 'Recommend movies!' button to see the result. """)
+    st.write(""" You can directly use Recommendation and click the 'Recommend movies!' button to see the result. """)
 
     st.write("""The magic number you select creates randomness in the movie selection (It is basically randomstate. 
     If this remains the same, you may see the same recommendations and same movie ratings. Then, choose the number of movies you would like to 
