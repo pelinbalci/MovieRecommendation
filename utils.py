@@ -304,7 +304,7 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
     # Find the predictions for the new user (user id is 0)
     my_predictions = pm[:, 0]
 
-    st.write('\n\nOriginal ratings:\n')
+    st.write('\n\nThese are the predictions of the model for your own ratings.\n')
     for i in range(len(my_ratings)):
         if my_ratings[i] > 0:
             st.write(f'{movieList[i]}: Your rating is {my_ratings[i]}, Predicted rating is {my_predictions[i]:0.2f}')
