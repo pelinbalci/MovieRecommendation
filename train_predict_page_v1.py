@@ -110,7 +110,7 @@ def show_train_predict_page_v1():
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
 
         st.subheader('Our recommendations for you! Enjoy!')
-        utils.give_recommendation(my_predictions, my_rated, movieList, df_ratings_mean)
+        utils.give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2)
 
         # analysis_button = st.checkbox("Show All Analysis")
         #

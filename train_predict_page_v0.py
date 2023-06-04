@@ -123,7 +123,7 @@ def show_train_predict_page_v0():
         R = np.c_[(my_ratings != 0).astype(int), R]  # Add new user indicator matrix to R
         Ynorm, Ymean = utils.normalizeRatings(Y, R)  # Normalize the Dataset
         W, X, b = utils.train_data(Y, Ynorm, R, selected_optimizer, iteration_number, feature_number)  # TRAIN
-        st.subheader('These are the predictions for your own ratings.')
+
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
         st.subheader('Recommended movies! Enjoy!')
-        utils.give_recommendation(my_predictions, my_rated, movieList, df_ratings_mean)
+        utils.give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2)
