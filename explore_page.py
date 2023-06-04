@@ -14,12 +14,9 @@ def show_explore_page():
                                'How many Ratings': [df_ratings_mean.number_of_ratings.sum()]})
     st.table(df_summary)
 
+    # number of genres
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean)
-    genresdflist = pd.DataFrame(all_genres_df.dtypes == 'int32').reset_index()
-    genresdflist.columns = ['column', 'boolean']
-    genresdflist = genresdflist[genresdflist.boolean == True]
-
-    genre_movies = all_genres_df[list(genresdflist.column)].sum().reset_index()
+    genre_movies = all_genres_df[list_genre].sum().reset_index()
     genre_movies = genre_movies[genre_movies['index'].isin(list_genre)]
     genre_movies.columns = ['Genre', 'Number of Movies']
     st.table(genre_movies)
