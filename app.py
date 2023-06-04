@@ -4,10 +4,14 @@ from explore_page import show_explore_page
 from references_page import show_references
 from tuning_page import show_tuning_page
 from train_predict_page_v1 import show_train_predict_page_v1
+from train_predict_page_v2 import show_train_predict_page_v2
 
-page = st.sidebar.selectbox("Pages", ("Recommendation_v1", "Recommendation_v0", "Tune the Model", "Explore", "References"))
+page = st.sidebar.selectbox("Pages", ("Recommendation_v2", "Recommendation_v1", "Recommendation_v0", "Tune the Model", "Explore", "References"))
 
-if page == "Recommendation_v1":
+if page == "Recommendation_v2":
+    show_train_predict_page_v2()
+
+elif page == "Recommendation_v1":
     show_train_predict_page_v1()
 
 elif page == "Recommendation_v0":
