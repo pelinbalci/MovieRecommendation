@@ -9,7 +9,7 @@ def show_tuning_page():
 
     iteration_number = st.number_input("Number of Iterations (default: 100)", min_value=10, max_value=100, step=10)
     feature_number = st.number_input("Number of Movie Features (default: 100)", min_value=10, max_value=100, step=10)
-    opt_select = st.radio("Optimization Type (default: Adam)", ("Adam", "SGD", "Less Known"))
+    opt_select = st.radio("Optimization Type (default: Adam)", ("Adam", "SGD", "RMSprop"))
 
     if opt_select == "Adam":
         selected_optimizer = keras.optimizers.Adam(learning_rate=1e-1)
