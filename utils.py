@@ -375,6 +375,7 @@ def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
         # limit the table with 10
         if len(recommended_table) >= 10:
             st.write("It is hard to select but these are the best movies we can find for you:)")
+            recommended_table = recommended_table[['title', 'genres', 'prediction']]
             recommended_table = recommended_table.head(10)
 
         if len(recommended_table) == 0:
