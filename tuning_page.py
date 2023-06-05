@@ -7,8 +7,8 @@ def show_tuning_page():
     st.write("""### Let's start to choose hyper-parameters!""")
     st.write("The default values are used if you don't change anything:) ")
 
-    iteration_number = st.number_input("Number of Iterations (default: 100)", min_value=10, max_value=100, step=10)
-    feature_number = st.number_input("Number of Movie Features (default: 100)", min_value=10, max_value=100, step=10)
+    iteration_number = st.number_input("Number of Iterations (default: 100)", min_value=70, max_value=100, step=10)
+    feature_number = st.number_input("Number of Movie Features (default: 100)", min_value=70, max_value=100, step=10)
     opt_select = st.radio("Optimization Type (default: Adam)", ("Adam", "SGD", "RMSprop"))
 
     if opt_select == "Adam":
