@@ -368,7 +368,7 @@ def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
     # st.write(st.session_state.get("selected_genre", "no_selection"))
 
     if len(selected_genres) > 0:
-        st.write('The model will give better results with your input. Thank you.')
+        st.write('The model gives better results with your input. Thank you.')
         merged = pd.merge(initial_recommended_table, all_genres_df_2, on='title')
         recommended_table = filter_genre(selected_genres, merged)
 
@@ -384,7 +384,7 @@ def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
             recommended_table = merged[['title', 'genres', 'prediction']].head(10)
 
     else:
-        st.write('recommenation with no ratings from user')
+        st.write('This is not personalized recommendation. Please select genre and rate movies!')
         merged = pd.merge(initial_recommended_table, all_genres_df_2[['title', 'genres']], on='title')
         recommended_table = merged[['title', 'genres', 'prediction']].head(10)
 
