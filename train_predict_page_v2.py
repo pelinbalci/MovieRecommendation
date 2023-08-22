@@ -16,7 +16,7 @@ def show_train_predict_page_v2():
     st.write("3. Select genre for recommendation")
     st.write("4. Click check box")
     st.write("5. Press Recommend Movies button")
-    st.write(" ")
+    st.subheader(" ")
 
     iteration_number = st.session_state.get("iteration_number", 100)
     feature_number = st.session_state.get("feature_number", 100)
@@ -31,7 +31,7 @@ def show_train_predict_page_v2():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    randomstate_user = st.slider('MAGIC NUMBER FOR YOUR RATINGS)', min_value=1, max_value=100, value=42, step=1)
+    randomstate_user = st.slider('MAGIC NUMBER FOR YOUR RATINGS', min_value=1, max_value=100, value=42, step=1)
     movienumber_user = st.slider('NUMBER OF MOVIES U WANT TO RATE', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user
