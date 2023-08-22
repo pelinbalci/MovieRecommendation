@@ -13,8 +13,8 @@ def show_train_predict_page_v2():
     st.write("2. You need to bring your own ratings. Select the number of movies you want to rate")
     st.write("3. Select genre for recommendation")
     st.write("4. Click check box")
-    st.write("5. Rate movies")
-    st.write("6. Press Recommend Movies button")
+    st.write("5. Press Recommend Movies button")
+    st.write(" ")
 
     iteration_number = st.session_state.get("iteration_number", 100)
     feature_number = st.session_state.get("feature_number", 100)
@@ -29,15 +29,15 @@ def show_train_predict_page_v2():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    randomstate_user = st.slider('Magic number (or random state:) )', min_value=1, max_value=100, value=42, step=1)
-    movienumber_user = st.slider('How many movies do you want to rate', min_value=6, max_value=20, value=6, step=1)
+    randomstate_user = st.slider('1. Magic number (or random state:) )', min_value=1, max_value=100, value=42, step=1)
+    movienumber_user = st.slider('2. How many movies do you want to rate', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user
     randomstate = st.session_state.get("randomstate", 42)
     movienumber = st.session_state.get("movienumber", 6)
 
     # Create checkboxes for each genre
-    selected_genres_user = st.multiselect('Select Genres', list_genre)
+    selected_genres_user = st.multiselect('3. Select Genres', list_genre)
     selected_genres = [str(genre) for genre in selected_genres_user]
     st.session_state['selected_genre'] = selected_genres
 
@@ -55,19 +55,19 @@ def show_train_predict_page_v2():
 
         st.write('Length of selected genres:', len(all_genres_df_3))
 
-    checkbox_b = st.subheader("""<-- Click checkbox to enter your own ratings.""")
-    st.write("Give 0, if you haven't seen the movie yet. Give ratings from 1 to 5.")
+    checkbox_b = st.checkbox("""4. <-- Click checkbox! """)
+    st.write("Give 0, if you haven't seen the movie yet.")
 
     if checkbox_b:
-        st.write("If you don't like the listed movies change the magic number and click again!")
         # Select movies based on genres
         # selected_movies = all_genres_df_3.sample(n=movienumber, random_state=randomstate)
         selected_movies = all_genres_df_3.head(movienumber)
         for i in range(movienumber):
             my_ratings, all_genres_df_3 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings,
                                                                         all_genres_df_3)
+        st.write("If you don't like these movies, change the magic number and CLICK again!")
 
-    train_button = st.button("Recommend movies!")
+    train_button = st.button("5. Recommend movies!")
     st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
     if train_button:
         st.subheader('Thank you. Wait for the recommendation!')
