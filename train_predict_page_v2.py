@@ -67,7 +67,7 @@ def show_train_predict_page_v2():
         for i in range(movienumber):
             my_ratings, all_genres_df_3 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings,
                                                                         all_genres_df_3)
-        st.write("If you don't like these movies, change the MAGIC NUMBER and CLICK again!")
+        st.write("If you don't like these movies, change the MAGIC NUMBER!")
 
     train_button = st.button("RECOMMEND MOVIES!")
     st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
