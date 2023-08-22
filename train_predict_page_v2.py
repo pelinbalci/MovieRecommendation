@@ -29,15 +29,15 @@ def show_train_predict_page_v2():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    randomstate_user = st.slider('1. Magic number (or random state:) )', min_value=1, max_value=100, value=42, step=1)
-    movienumber_user = st.slider('2. How many movies do you want to rate', min_value=6, max_value=20, value=6, step=1)
+    randomstate_user = st.slider('Magic number (or random state:))', min_value=1, max_value=100, value=42, step=1)
+    movienumber_user = st.slider('How many movies do you want to rate', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user
     randomstate = st.session_state.get("randomstate", 42)
     movienumber = st.session_state.get("movienumber", 6)
 
     # Create checkboxes for each genre
-    selected_genres_user = st.multiselect('3. Select Genres', list_genre)
+    selected_genres_user = st.multiselect('Select Genres', list_genre)
     selected_genres = [str(genre) for genre in selected_genres_user]
     st.session_state['selected_genre'] = selected_genres
 
@@ -55,7 +55,7 @@ def show_train_predict_page_v2():
 
         st.write('Length of selected genres:', len(all_genres_df_3))
 
-    checkbox_b = st.checkbox("""4. <-- Click checkbox! """)
+    checkbox_b = st.checkbox("""<-- Click checkbox! """)
     st.write("Give 0, if you haven't seen the movie yet.")
 
     if checkbox_b:
@@ -67,7 +67,7 @@ def show_train_predict_page_v2():
                                                                         all_genres_df_3)
         st.write("If you don't like these movies, change the magic number and CLICK again!")
 
-    train_button = st.button("5. Recommend movies!")
+    train_button = st.button("Recommend movies!")
     st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
     if train_button:
         st.subheader('Thank you. Wait for the recommendation!')
