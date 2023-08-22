@@ -7,10 +7,12 @@ from tensorflow import keras
 
 
 def show_train_predict_page_v2():
-    st.title("Movie Recommendation")
+    st.title("Personalized Movie Recommendation")
+    st.subheader("with TensorFlow and Content Based Filtering")
+    st.subheader(" ")
     st.subheader("How to Use?")
-    st.write("1. Change or Don't change the magic number(random state)")
-    st.write("2. You need to bring your own ratings. Select the number of movies you want to rate")
+    st.write("1. Change or Don't change the magic number. It will change the movies you rate.")
+    st.write("2. You need to bring your own ratings. Select the number of movies you want to rate.")
     st.write("3. Select genre for recommendation")
     st.write("4. Click check box")
     st.write("5. Press Recommend Movies button")
@@ -29,21 +31,21 @@ def show_train_predict_page_v2():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    randomstate_user = st.slider('Magic number (or random state:))', min_value=1, max_value=100, value=42, step=1)
-    movienumber_user = st.slider('How many movies do you want to rate', min_value=6, max_value=20, value=6, step=1)
+    randomstate_user = st.slider('MAGIC NUMBER FOR YOUR RATINGS)', min_value=1, max_value=100, value=42, step=1)
+    movienumber_user = st.slider('NUMBER OF MOVIES U WANT TO RATE', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user
     randomstate = st.session_state.get("randomstate", 42)
     movienumber = st.session_state.get("movienumber", 6)
 
     # Create checkboxes for each genre
-    selected_genres_user = st.multiselect('Select Genres', list_genre)
+    selected_genres_user = st.multiselect('SELECT GENRES', list_genre)
     selected_genres = [str(genre) for genre in selected_genres_user]
     st.session_state['selected_genre'] = selected_genres
 
     # Get highest number of rated movies
     all_genres_df_2 = all_genres_df.sort_values(by="number_of_ratings", ascending=False)
-    st.write('Length of movie database:', len(all_genres_df_2))
+    # st.write('Length of movie database:', len(all_genres_df_2))
 
     if not selected_genres:
         all_genres_df_3 = all_genres_df_2.copy().head(100)
@@ -53,9 +55,9 @@ def show_train_predict_page_v2():
         all_genres_df_3 = utils.filter_genre(selected_genres, all_genres_df_2)
         all_genres_df_3 = all_genres_df_3.sample(len(all_genres_df_3), random_state=randomstate)
 
-        st.write('Length of selected genres:', len(all_genres_df_3))
+        # st.write('Length of selected genres:', len(all_genres_df_3))
 
-    checkbox_b = st.checkbox("""<-- Click checkbox! """)
+    checkbox_b = st.checkbox("""CLICK to RATE MOVIES for SELECTED GENRES! """)
     st.write("Give 0, if you haven't seen the movie yet.")
 
     if checkbox_b:
@@ -65,9 +67,9 @@ def show_train_predict_page_v2():
         for i in range(movienumber):
             my_ratings, all_genres_df_3 = utils.get_ratings_from_user_2(movieList, i, selected_movies, my_ratings,
                                                                         all_genres_df_3)
-        st.write("If you don't like these movies, change the magic number and CLICK again!")
+        st.write("If you don't like these movies, change the MAGIC NUMBER and CLICK again!")
 
-    train_button = st.button("Recommend movies!")
+    train_button = st.button("RECOMMEND MOVIES!")
     st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
     if train_button:
         st.subheader('Thank you. Wait for the recommendation!')
