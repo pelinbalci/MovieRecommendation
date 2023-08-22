@@ -8,12 +8,17 @@ from tensorflow import keras
 
 def show_train_predict_page_v2():
     st.title("Movie Recommendation")
+    st.subheader("How to Use?")
+    st.write("1. Change or Don't change the magic number(random state)")
+    st.write("2. You need to bring your own ratings. Select the number of movies you want to rate")
+    st.write("3. Select genre for recommendation")
+    st.write("4. Click check box")
+    st.write("5. Rate movies")
+    st.write("6. Press Recommend Movies button")
 
     iteration_number = st.session_state.get("iteration_number", 100)
     feature_number = st.session_state.get("feature_number", 100)
     selected_optimizer = st.session_state.get("selected_optimizer", keras.optimizers.Adam(learning_rate=1e-1))
-
-    st.write("You can change the parameters on Tune the Model page")
 
     # Call functions
     df_ratings, df_ratings_mean, df_movie = utils.read_data()
@@ -50,10 +55,9 @@ def show_train_predict_page_v2():
 
         st.write('Length of selected genres:', len(all_genres_df_3))
 
-    st.subheader("""Click checkbox to enter your own ratings.""")
+    checkbox_b = st.subheader("""<-- Click checkbox to enter your own ratings.""")
     st.write("Give 0, if you haven't seen the movie yet. Give ratings from 1 to 5.")
 
-    checkbox_b = st.checkbox('Show me movies')
     if checkbox_b:
         st.write("If you don't like the listed movies change the magic number and click again!")
         # Select movies based on genres
@@ -64,6 +68,7 @@ def show_train_predict_page_v2():
                                                                         all_genres_df_3)
 
     train_button = st.button("Recommend movies!")
+    st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
     if train_button:
         st.subheader('Thank you. Wait for the recommendation!')
         st.write('The model is being retrained to give you personal recommendations.')
