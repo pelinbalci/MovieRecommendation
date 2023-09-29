@@ -9,13 +9,17 @@ from tensorflow import keras
 def show_train_predict_page_v2():
     st.title("Personalized Movie Recommendation")
     st.subheader("with TensorFlow and Content Based Filtering")
-    st.subheader(" ")
+    st.write(" ")
     st.subheader("How to Use?")
-    st.write("1. Change or Don't change the magic number. It will change the movies you rate.")
-    st.write("2. You need to bring your own ratings. Select the number of movies you want to rate.")
-    st.write("3. Select genre for recommendation")
-    st.write("4. Click check box")
-    st.write("5. Press Recommend Movies button")
+    st.write("1. Customize Your Selection: You have the power to influence your movie recommendations! "
+             "By changing or keeping the 'Magic Number', you can see different movie options to rate.")
+    st.write("2. Rate Movies: Tell us what you like! Choose the number of movies you'd like to rate.")
+    st.write("3. Select Genre: Pick a genre for your personalized movie recommendations. Whether it's comedy, action, "
+             "or drama, we've got you covered.")
+    st.write("4. Click check box  to ensure a fresh selection of movies to rate.")
+    st.write("5. Get Recommendations: Click the 'Recommend Movies' button, and our advanced TensorFlow model will "
+             "generate tailored movie suggestions just for you.")
+    st.write("That's it! Enjoy discovering your next favorite film.")
     st.subheader(" ")
 
     iteration_number = st.session_state.get("iteration_number", 100)
@@ -31,7 +35,7 @@ def show_train_predict_page_v2():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    randomstate_user = st.slider('MAGIC NUMBER FOR YOUR RATINGS', min_value=1, max_value=100, value=42, step=1)
+    randomstate_user = st.slider('MAGIC NUMBER', min_value=1, max_value=100, value=42, step=1)
     movienumber_user = st.slider('NUMBER OF MOVIES U WANT TO RATE', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user
@@ -57,7 +61,7 @@ def show_train_predict_page_v2():
 
         # st.write('Length of selected genres:', len(all_genres_df_3))
 
-    checkbox_b = st.checkbox("""CLICK to RATE MOVIES for SELECTED GENRES! """)
+    checkbox_b = st.checkbox("""CLICK to SEE and RATE MOVIES""")
     st.write("Give 0, if you haven't seen the movie yet.")
 
     if checkbox_b:
