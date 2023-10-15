@@ -76,6 +76,7 @@ def show_train_predict_page_v2():
                                                                         all_genres_df_3)
         st.write("If you don't like these movies, change the MAGIC NUMBER!")
 
+    st.subheader(" ")
     train_button = st.button("RECOMMEND MOVIES!")
     if train_button:
         st.subheader('Thank you. Wait for the recommendation!')
