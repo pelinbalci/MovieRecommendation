@@ -37,9 +37,9 @@ def show_train_predict_page_v2():
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
 
-    st.subheader("TELL US WHO YOU ARE. WHICH MOVIES REPRESENTS YOU?")
+    st.subheader("Tell Us Who You Are. Which Movies Represent You? Rate Movies Now!:)")
 
-    randomstate_user = st.slider('MAGIC NUMBER', min_value=1, max_value=100, value=42, step=1)
+    randomstate_user = st.slider('MAGIC NUMBER - RANDOMIZE MOVIES', min_value=1, max_value=100, value=42, step=1)
     movienumber_user = st.slider('NUMBER OF MOVIES U WANT TO RATE', min_value=6, max_value=20, value=6, step=1)
     st.session_state["randomstate"] = randomstate_user
     st.session_state["movienumber"] = movienumber_user
@@ -65,7 +65,7 @@ def show_train_predict_page_v2():
 
         # st.write('Length of selected genres:', len(all_genres_df_3))
 
-    checkbox_b = st.checkbox("""CLICK to SEE and RATE MOVIES - Give 0, if you haven't seen the movie yet.""")
+    checkbox_b = st.checkbox("""CLICK TO SEE AND RATE MOVIES - Give 0, if you haven't seen the movie yet.""")
 
     if checkbox_b:
         # Select movies based on genres
@@ -89,5 +89,5 @@ def show_train_predict_page_v2():
 
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
 
-        st.subheader('YOUR PERSONALIZED RECOMMENDATIONS! ENJOY!')
+        st.subheader('Our Recommendations For You! Enjoy!')
         utils.give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2)
