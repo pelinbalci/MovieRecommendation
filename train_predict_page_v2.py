@@ -13,13 +13,15 @@ def show_train_predict_page_v2():
     st.subheader("How to Use?")
     st.write("1. Customize Your Selection: You have the power to influence your movie recommendations! "
              "By changing or keeping the 'Magic Number', you can see different movie options to rate.")
-    st.write("2. Rate Movies: Tell us what you like! Choose the number of movies you'd like to rate.")
+    st.write("2. Number of Movies: Tell us what you like! Choose the number of movies you'd like to rate.")
     st.write("3. Select Genre: Pick a genre for your personalized movie recommendations. Whether it's comedy, action, "
              "or drama, we've got you covered.")
     st.write("4. Click check box  to ensure a fresh selection of movies to rate.")
     st.write("5. Get Recommendations: Click the 'Recommend Movies' button, and our advanced TensorFlow model will "
              "generate tailored movie suggestions just for you.")
     st.write("That's it! Enjoy discovering your next favorite film.")
+    st.write(" ")
+    st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
     st.subheader(" ")
 
     iteration_number = st.session_state.get("iteration_number", 100)
@@ -34,6 +36,8 @@ def show_train_predict_page_v2():
     # Prepare Dataset(select 30 most rated movies)
     df_ratings_mean_temp = df_ratings_mean.copy()
     all_genres_df, list_genre = utils.prepare_selected_movies(df_ratings_mean_temp)
+
+    st.subheader("TELL US WHO YOU ARE. WHICH MOVIES REPRESENTS YOU?")
 
     randomstate_user = st.slider('MAGIC NUMBER', min_value=1, max_value=100, value=42, step=1)
     movienumber_user = st.slider('NUMBER OF MOVIES U WANT TO RATE', min_value=6, max_value=20, value=6, step=1)
@@ -61,8 +65,7 @@ def show_train_predict_page_v2():
 
         # st.write('Length of selected genres:', len(all_genres_df_3))
 
-    checkbox_b = st.checkbox("""CLICK to SEE and RATE MOVIES""")
-    st.write("Give 0, if you haven't seen the movie yet.")
+    checkbox_b = st.checkbox("""CLICK to SEE and RATE MOVIES - Give 0, if you haven't seen the movie yet.""")
 
     if checkbox_b:
         # Select movies based on genres
@@ -74,7 +77,6 @@ def show_train_predict_page_v2():
         st.write("If you don't like these movies, change the MAGIC NUMBER!")
 
     train_button = st.button("RECOMMEND MOVIES!")
-    st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
     if train_button:
         st.subheader('Thank you. Wait for the recommendation!')
         st.write('The model is being retrained to give you personal recommendations.')
@@ -87,5 +89,5 @@ def show_train_predict_page_v2():
 
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
 
-        st.subheader('Our recommendations for you! Enjoy!')
+        st.subheader('YOUR PERSONALIZED RECOMMENDATIONS! ENJOY!')
         utils.give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2)
