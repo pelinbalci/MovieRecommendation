@@ -11,3 +11,4 @@ The project includes 4 pages:
 - references_page.py: references
 - utils.py: helper functions for manipulations on dataset & input selection & training & prediction
 
+Link: https://pelinbalci-movierecommendation-app-vg04fm.streamlit.app/
