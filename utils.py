@@ -312,7 +312,7 @@ def train_data(Y, Ynorm, R, selected_optimizer, iteration_number=100, feature_nu
 
         # Log periodically.
         if iter % 20 == 0:
-            st.write(f"Training... Iteration {iter}: has completed"
+            st.write(f"Training... Iteration {iter} has completed"
             # {cost_value:0.1f}"
             )
 
