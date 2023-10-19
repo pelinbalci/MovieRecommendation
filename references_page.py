@@ -4,11 +4,11 @@ import streamlit as st
 def show_references():
     st.title("References")
 
-    st.write("""The code of this project is prepared by my notes from Unsupervised Learning, Recommenders, 
-    Reinforcement Learning by DeepLearning.AI Coursera. I would like to thank Andrew NG for this great lecture. 
-    The training module and vectorized cost function are directly copied from the lecture. I prepared the data from scratch, 
-    get input data, made the code modular (app.py, train_predict_page.py and utils.py). Also, you can run the project on a 
-    dashboard which is prepared by streamlit:)""")
+    st.write("""I've taken the lecture Unsupervised Learning, Recommenders, Reinforcement Learning by DeepLearning.AI 
+    Coursera. I would like to thank Andrew NG for this great lecture. The training module and vectorized cost function 
+    are directly copied from the lecture. These are the parts I've written: I prepared the data from scratch, 
+    get input data, made the code modular (app.py, train_predict_page.py and utils.py) and I've used Streamlit to 
+    prepare the UI and also deployment. :)""")
 
     st.write("""The data set is derived from the 
     [MovieLens "ml-latest-small"](https://grouplens.org/datasets/movielens/latest/) dataset.   
