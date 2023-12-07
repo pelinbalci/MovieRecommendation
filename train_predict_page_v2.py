@@ -9,20 +9,7 @@ from tensorflow import keras
 def show_train_predict_page_v2():
     st.title("Personalized Movie Recommendation")
     st.subheader("with TensorFlow and Content Based Filtering")
-    st.write(" ")
-    st.subheader("How to Use?")
-    st.write("1. Customize Your Selection: You have the power to influence your movie recommendations! "
-             "By changing or keeping the 'Magic Number', you can see different movie options to rate.")
-    st.write("2. Number of Movies: Tell us what you like! Choose the number of movies you'd like to rate.")
-    st.write("3. Select Genre: Pick a genre for your personalized movie recommendations. Whether it's comedy, action, "
-             "or drama, we've got you covered.")
-    st.write("4. Click check box  to ensure a fresh selection of movies to rate.")
-    st.write("5. Get Recommendations: Click the 'Recommend Movies' button, and our advanced TensorFlow model will "
-             "generate tailored movie suggestions just for you.")
-    st.write("That's it! Enjoy discovering your next favorite film.")
-    st.write(" ")
-    st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
-    st.subheader(" ")
+    st.write("Go to Tutorial Page for Quick Start")
 
     iteration_number = st.session_state.get("iteration_number", 100)
     feature_number = st.session_state.get("feature_number", 100)
