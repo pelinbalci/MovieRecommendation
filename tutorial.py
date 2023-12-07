@@ -4,14 +4,16 @@ import streamlit as st
 def show_tutorial():
     st.title("Quick Start")
 
-    st.write("1. Customize Your Selection: You have the power to influence your movie recommendations! "
-             "By changing or keeping the 'Magic Number', you can see different movie options to rate.")
-    st.write("2. Number of Movies: Tell us what you like! Choose the number of movies you'd like to rate.")
-    st.write("3. Select Genre: Pick a genre for your personalized movie recommendations. Whether it's comedy, action, "
-             "or drama, we've got you covered.")
-    st.write("4. Click check box  to ensure a fresh selection of movies to rate.")
-    st.write("5. Get Recommendations: Click the 'Recommend Movies' button, and our advanced TensorFlow model will "
-             "generate tailored movie suggestions just for you.")
+    st.write("""
+    - Customize Your Selection: You have the power to influence your movie recommendations!
+             "By changing or keeping the 'Magic Number', you can see different movie options to rate.
+    - Number of Movies: Tell us what you like! Choose the number of movies you'd like to rate.
+    - Select Genre: Pick a genre for your personalized movie recommendations. Whether it's comedy, action,
+    or drama, we've got you covered.
+    - Click check box  to ensure a fresh selection of movies to rate.
+    - Get Recommendations: Click the 'Recommend Movies' button, and our advanced TensorFlow model will 
+             "generate tailored movie suggestions just for you.""")
+
     st.write("That's it! Enjoy discovering your next favorite film.")
     st.write(" ")
     st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
