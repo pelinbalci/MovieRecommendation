@@ -2,74 +2,87 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+---
 
-### Planned
-- Improve recommendation accuracy
-- Better UI 
-- Recommendation system study
+## [2.0.1] - 2025-01-04
 
-## [2.1.0] - 2026-01-04
+### Fixed
+- **Terminology correction**: Changed "Content Based Filtering" to "Collaborative Filtering" throughout the codebase
+  - `utils.py`: Updated docstrings in both `cofi_cost_func()` and `cofi_cost_func_v()` functions
+  - `train_predict_page_v2.py`: Fixed subtitle from "with TensorFlow and Content Based Filtering" to "with TensorFlow and Collaborative Filtering"
 
-### Changed
-- Readme describes all the functions
-- Bug fixes
-- Change log is added
-- Release is added
+### Added
+- **README.md enhancements**:
+  - Notation Reference table mapping mathematical notation to Python variables
+  - Default Hyperparameters table (λ=1.0, learning rate=0.1, iterations=100, features=100)
+  - Normalization section explaining how mean normalization addresses the cold-start problem
+  - "Adding New User Ratings" section with code examples showing matrix integration
+  - Note clarifying that bias term `b` is intentionally not regularized
+  - Updated Table of Contents with new sections
 
-### Removed
-- Debug information from recommendation page
+### Documentation
+- Improved algorithm explanations with clearer mathematical representations
+- Added code snippets demonstrating normalization and prediction formulas
 
 ---
 
 ## [2.0.0] - 2023-12-07
 
-### Changed
-- Simplified user interface - removed technical details from main page
-- Streamlined movie rating process
-
-### Removed
-- Sample database displays
-
----
-
-## [1.0.0] - 2023-08-22
-
 ### Added
-- Randomness in movie selection via "Magic Number" slider
-- Genre-based filtering
-- Display of selected parameters for development/debugging
-- Sample data preview from database
+- Complete README.md documentation with:
+  - Algorithm explanation (Matrix Factorization, Cost Function, Training Process)
+  - Project structure overview
+  - Comprehensive functions reference
+  - Installation and usage instructions
+- MIT License
+- Version badges
 
 ### Changed
-- Improved movie selection algorithm
+- Restructured project for better modularity
+- Improved code organization across multiple pages
+
+### Features
+- Interactive movie rating interface
+- Genre-based filtering for recommendations
+- Customizable hyperparameters (iterations, features, optimizer)
+- Real-time model training with TensorFlow
+- Data exploration and visualization page
 
 ---
 
-## [0.1.0] - 2023-06-04
+## [1.0.0] -  2023-08-22 - Initial Release
 
 ### Added
-- Initial release
-- Basic movie recommendation using collaborative filtering
-- TensorFlow-based training
-- Streamlit user interface
-- Movie rating input system
-- Hyperparameter tuning page
-- Data exploration page
-
-### Notes
-- First version without randomness in movie selection
-- Fixed movie order for rating
+- Core recommendation engine using Collaborative Filtering
+- Streamlit web interface with multiple pages:
+  - Recommendation page (`train_predict_page_v2.py`)
+  - Hyperparameter tuning page (`tuning_page.py`)
+  - Data exploration page (`explore_page.py`)
+  - Tutorial page (`tutorial.py`)
+  - References page (`references_page.py`)
+- MovieLens dataset integration
+- TensorFlow-based training with gradient descent optimization
+- Support for multiple optimizers (Adam, SGD, RMSprop)
 
 ---
 
-## Version Summary
+## Version History Summary
 
-| Version | Highlights |
-|---------|------------|
-| **v2.0.0** | Production-ready, clean UI for end users |
-| **v1.0.0** | Added randomness, useful for development/testing |
-| **v0.1.0** | Initial prototype with basic functionality |
+| Version | Date | Highlights |
+|---------|------|------------|
+| 2.0.1 | 2025-01-04 | Terminology fixes, enhanced documentation |
+| 2.0.0 | - | Major documentation update, README overhaul |
+| 1.0.0 | - | Initial release with core functionality |
+
+---
+
+## Upcoming / Planned
+
+- [ ] Fix notebook error: length mismatch between `my_predictions` and `df_ratings_mean` after duplicate removal
+- [ ] Add model persistence (save/load trained models)
+- [ ] Implement additional recommendation algorithms for comparison
+- [ ] Add unit tests for core functions
+- [ ] Performance optimization for larger datasets
