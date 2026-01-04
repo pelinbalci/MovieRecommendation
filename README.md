@@ -5,7 +5,8 @@
 ![License](https://img.shields.io/badge/license-MIT-orange.svg)
 
 A movie recommendation application built with **TensorFlow** and **Streamlit** using **Collaborative Filtering** with Matrix Factorization.
-Link: https://pelinbalci-movierecommendation.streamlit.app/
+
+**Link: https://pelinbalci-movierecommendation.streamlit.app/**
 
 
 > 📋 See [CHANGELOG.md](CHANGELOG.md) for version history and release notes.
