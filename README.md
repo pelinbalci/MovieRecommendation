@@ -33,7 +33,9 @@ A movie recommendation application built with **TensorFlow** and **Streamlit** u
 
 ## Overview
 
-This application provides personalized movie recommendations by learning user preferences through collaborative filtering. Users rate a selection of movies, and the system trains a neural network model to predict ratings for unseen movies, generating tailored recommendations.
+This application provides personalized movie recommendations by learning user preferences through collaborative filtering. 
+Users rate a selection of movies, and the system trains a neural network model to predict ratings for unseen movies, 
+generating tailored recommendations.
 
 ### Key Features
 
@@ -49,7 +51,8 @@ This application provides personalized movie recommendations by learning user pr
 
 ### Matrix Factorization
 
-The recommendation engine uses **Collaborative Filtering** via matrix factorization. The core idea is to decompose the user-movie rating matrix into two lower-dimensional matrices that capture latent features.
+The recommendation engine uses **Collaborative Filtering** via matrix factorization. The core idea is to decompose the 
+user-movie rating matrix into two lower-dimensional matrices that capture latent features.
 
 #### Mathematical Representation
 
