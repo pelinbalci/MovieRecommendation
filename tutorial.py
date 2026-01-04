@@ -2,67 +2,140 @@ import streamlit as st
 
 
 def show_tutorial():
-    st.title("Quick Start")
+    st.title("📖 Tutorial")
+    st.markdown("Welcome! This guide will help you get personalized movie recommendations in just a few steps.")
 
-    st.write("""
-    - Customize Your Selection: You have the power to influence your movie recommendations! By changing or keeping the 
-    'Magic Number', you can see different movie options to rate.
-    - Number of Movies: Tell us what you like! Choose the number of movies you'd like to rate.
-    - Select Genre: Pick a genre for your personalized movie recommendations. Whether it's comedy, action,or drama, 
-    we've got you covered.
-    - Click check box  to ensure a fresh selection of movies to rate.
-    - Get Recommendations: Click the 'Recommend Movies' button, and our advanced TensorFlow model will 
-    generate tailored movie suggestions just for you.
+    st.divider()
+
+    # Quick Start Section
+    st.header("🚀 Quick Start")
+
+    st.markdown("""
+    **Get recommendations in 5 simple steps:**
+
+    1️⃣ **Set the Magic Number** — This randomizes which movies you'll see. Change it to discover different films!
+
+    2️⃣ **Choose How Many Movies to Rate** — Select between 6-20 movies using the slider.
+
+    3️⃣ **Select Your Favorite Genres** — Filter movies by genres you enjoy (Action, Comedy, Drama, etc.)
+
+    4️⃣ **Rate the Movies** — Click the checkbox to reveal movies, then rate them from 1-5. Use 0 if you haven't seen a movie.
+
+    5️⃣ **Get Your Recommendations** — Click "RECOMMEND MOVIES!" and let our AI find your next favorite film!
     """)
 
-    st.write("That's it! Enjoy discovering your next favorite film.")
-    st.write(" ")
-    st.write("P.S. You can change the hyper-parameters on 'Tune the Model' page")
-    st.subheader(" ")
+    st.info("💡 **Tip:** The more movies you rate honestly, the better your recommendations will be!")
 
-    st.title("Pages")
-    st.write("""
-    You can select the pages in the sidebar on the left. 
-    
-    These are:
-    
-    - Recommendation
-    - Tune the Model
-    - Explore
-    - References
+    st.divider()
+
+    # Page Navigation Section
+    st.header("📑 Pages Overview")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("""
+        **🎬 Recommendation**
+
+        The main page where you rate movies and receive personalized suggestions.
+        """)
+
+        st.markdown("""
+        **⚙️ Tune the Model**
+
+        Adjust hyperparameters for advanced users:
+        - Number of iterations
+        - Number of features  
+        - Optimizer type
+        """)
+
+    with col2:
+        st.markdown("""
+        **📊 Explore**
+
+        View statistics about the movie database:
+        - Top rated movies
+        - Genre distributions
+        - Rating trends over time
+        """)
+
+        st.markdown("""
+        **📚 References**
+
+        Credits, data sources, and acknowledgments.
+        """)
+
+    st.divider()
+
+    # Understanding Results Section
+    st.header("📈 Understanding Your Results")
+
+    st.markdown("""
+    After the model trains, you'll see two tables:
+
+    | Table | What It Shows |
+    |-------|---------------|
+    | **Your Ratings vs Predictions** | Compares your actual ratings to what the model predicted. Closer values = better model fit. |
+    | **Recommended Movies** | Top 10 movies the model thinks you'll enjoy, sorted by predicted rating. |
     """)
 
-    st.write(""" You can directly use Recommendation page and click the 'Recommend movies!' 
-    button to see the result. """)
+    st.warning("⚠️ **Large gaps** between your ratings and predictions? Try increasing iterations in 'Tune the Model'.")
 
-    st.write("""The magic number you select creates randomness in the movie selection (It is basically randomstate. 
-    If this remains the same, you may see the same recommendations and same movie ratings. Then, choose the number of movies you would like to 
-     select by using the slider. 
-     You can't see the movies unless you check the box: 'Show me movies' """)
+    st.divider()
 
-    st.write("""Rate the movies from 1 to 5. If you haven't seen it, remain the rating as 0.""")
+    # Advanced Settings Section
+    with st.expander("⚙️ Advanced: Hyperparameter Tuning"):
+        st.markdown("""
+        The model uses **TensorFlow** with these configurable parameters:
 
-    st.write(""" You will see two tables after the model is trained. The first one shows the difference between original 
-    ratings and the predictions. If there is
-    a huge gap, you may try to increase the iteration number in the "Tune the Model" page. The second table shows the 
-    recommended movies. Hopefully you enjoy the recommendations!!! =)""")
+        | Parameter | Default | Range | Description |
+        |-----------|---------|-------|-------------|
+        | **Iterations** | 100 | 70-100 | More iterations = longer training but potentially better results |
+        | **Features** | 100 | 70-100 | Number of latent features the model learns |
+        | **Optimizer** | Adam | Adam/SGD/RMSprop | Algorithm used to minimize prediction error |
 
-    st.title("Parameter Tuning")
-    st.write("""
-       Select the "Tune the Model" page on the left. The model is using TensorFlow. Wee need to specify the number of 
-       iterations, the number of features of movie and optimization type. Their default values are 100, 100, and Adam 
-       respectively. You can change them and check the difference between the recommendations. The easiest way to 
-       understand the difference between parameters is to 
-       check the original ratings vs predicted ratings. This table  will be shown after the model is trained.""")
+        **When to adjust:**
+        - Poor predictions → Increase iterations
+        - Slow training → Decrease iterations or features
+        - Experimenting → Try different optimizers
+        """)
 
-    st.title('Notes')
-    st.write("This website is not established for commercial purposes. Note that the dataset is not up to date. "
-             "You may not find the newly released movies in it. ")
+    # FAQ Section
+    with st.expander("❓ Frequently Asked Questions"):
+        st.markdown("""
+        **Q: Why don't I see recent movies?**
 
-    st.title("Releases")
+        A: The dataset (MovieLens) contains movies up to a certain date and isn't updated in real-time.
 
-    st.write("""
-    - v0: The first version doesn't have the randomness in the movie selection.
-    - v1: Includes randomness. It also shows the samples from db and selected parameters. This page can be used for development. 
-    - v2: The parameters and some of the technical details are removed. The simplest version so far.  
-    """)
+        ---
+
+        **Q: What does the Magic Number do?**
+
+        A: It's a random seed that determines which movies appear for rating. Same number = same movies.
+
+        ---
+
+        **Q: Why should I rate movies I've seen?**
+
+        A: The algorithm learns your taste from your ratings. More honest ratings = better recommendations.
+
+        ---
+
+        **Q: What if I don't like the recommended movies?**
+
+        A: Try rating more movies, selecting different genres, or adjusting the magic number to rate different films.
+        """)
+
+    # Notes Section
+    with st.expander("📝 Notes & Disclaimer"):
+        st.markdown("""
+        - This application is for **educational purposes** only
+        - The movie database may not include recently released films
+        - Recommendations are generated by a machine learning model and may not always match your preferences perfectly
+        - Feel free to experiment with different settings!
+        """)
+
+    st.divider()
+
+    # Call to Action
+    st.success("🎉 **Ready to start?** Head to the **Recommendation** page from the sidebar!")

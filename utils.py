@@ -4,6 +4,7 @@ import pandas as pd
 from tensorflow import keras
 import streamlit as st
 
+
 def read_data():
     " Read & Create data"
     # Read data
@@ -63,13 +64,13 @@ def create_matrices(df_ratings, num_movies):
     "Create Matrices"
 
     y_matrix = df_ratings.pivot(index='movieId', columns='userId', values='rating')
-    y_matrix =y_matrix.fillna(0)
+    y_matrix = y_matrix.fillna(0)
     y_matrix = y_matrix.reset_index()
     y_matrix = y_matrix.drop('movieId', axis=1)
 
     df_ratings['temp'] = 1
     r_matrix = df_ratings.pivot(index='movieId', columns='userId', values='temp')
-    r_matrix =r_matrix.fillna(0)
+    r_matrix = r_matrix.fillna(0)
     r_matrix = r_matrix.reset_index()
     r_matrix = r_matrix.drop('movieId', axis=1)
 
@@ -86,7 +87,9 @@ def create_matrices(df_ratings, num_movies):
 # Cost function with loop
 def cofi_cost_func(X, W, b, Y, R, lambda_):
     """
-    Returns the cost for the content-based filtering
+    Returns the cost for collaborative filtering.
+    This is the non-vectorized version (for understanding).
+
     Args:
       X (ndarray (num_movies,num_features)): matrix of item features
       W (ndarray (num_users,num_features)) : matrix of user parameters
@@ -115,8 +118,9 @@ def cofi_cost_func(X, W, b, Y, R, lambda_):
 # Vectorized cost function
 def cofi_cost_func_v(X, W, b, Y, R, lambda_):
     """
-    Returns the cost for the content-based filtering
-    Vectorized for speed. Uses tensorflow operations to be compatible with custom training loop.
+    Returns the cost for collaborative filtering.
+    Vectorized for speed. Uses TensorFlow operations to be compatible with custom training loop.
+
     Args:
       X (ndarray (num_movies,num_features)): matrix of item features
       W (ndarray (num_users,num_features)) : matrix of user parameters
@@ -295,7 +299,7 @@ def train_data(Y, Ynorm, R, selected_optimizer, iteration_number=100, feature_nu
     iterations = iteration_number
     lambda_ = 1
     for iter in range(iterations):
-        # Use TensorFlow’s GradientTape
+        # Use TensorFlowâ€™s GradientTape
         # to record the operations used to compute the cost
         with tf.GradientTape() as tape:
 
@@ -313,8 +317,8 @@ def train_data(Y, Ynorm, R, selected_optimizer, iteration_number=100, feature_nu
         # Log periodically.
         if iter % 20 == 0:
             st.write(f"Training... Iteration {iter} has completed"
-            # {cost_value:0.1f}"
-            )
+                     # {cost_value:0.1f}"
+                     )
 
     return W, X, b
 
@@ -329,7 +333,7 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
     # Find the predictions for the new user (user id is 0)
     my_predictions = pm[:, 0]
 
-    if sum(my_ratings) >0:
+    if sum(my_ratings) > 0:
         st.write('\n\nThese are the predictions of the model for your own ratings.\n')
 
         prediction_dict = {}
@@ -341,7 +345,8 @@ def prediction(W, X, b, Ymean, my_ratings, movieList):
         pred_table = pd.DataFrame.from_dict([prediction_dict])
         pred_table = pred_table.T.reset_index()
         pred_table.columns = ['title', 'ratings']
-        pred_table[['original_rating', 'predicted_rating']] = pd.DataFrame(pred_table.ratings.tolist(), index=pred_table.index)
+        pred_table[['original_rating', 'predicted_rating']] = pd.DataFrame(pred_table.ratings.tolist(),
+                                                                           index=pred_table.index)
         pred_table = pred_table[['title', 'original_rating', 'predicted_rating']]
         st.table(pred_table)
     else:
@@ -391,7 +396,6 @@ def give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2):
         recommended_table = merged[['title', 'genres', 'prediction']].head(10)
 
     st.table(recommended_table)
-
 
 # df_ratings, df_ratings_mean, df_movie = read_data()
 # prepare_selected_movies(df_ratings_mean)
