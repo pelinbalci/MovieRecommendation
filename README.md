@@ -1,5 +1,7 @@
 # Personalized Movie Recommendation System
 
+Link: https://pelinbalci-movierecommendation.streamlit.app/
+
 A movie recommendation application built with **TensorFlow** and **Streamlit** using **Collaborative Filtering** with Matrix Factorization.
 
 ## Table of Contents
@@ -400,6 +402,9 @@ This project uses the [MovieLens "ml-latest-small"](https://grouplens.org/datase
 
 ---
 
-## License
+# License
 
-This project is for educational purposes only.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+This project is intended for educational purposes. Feel free to use, modify, and distribute as permitted under the MIT 
+License.
