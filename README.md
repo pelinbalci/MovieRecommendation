@@ -16,8 +16,11 @@ A movie recommendation application built with **TensorFlow** and **Streamlit** u
 - [Overview](#overview)
 - [Algorithm](#algorithm)
   - [Matrix Factorization](#matrix-factorization)
+  - [Notation Reference](#notation-reference)
   - [Cost Function](#cost-function)
+  - [Normalization](#normalization)
   - [Training Process](#training-process)
+  - [Adding New User Ratings](#adding-new-user-ratings)
 - [Project Structure](#project-structure)
 - [Functions Reference](#functions-reference)
   - [Data Processing](#data-processing)
@@ -78,6 +81,23 @@ Where:
 - `W[j]` represents the learned preference vector for user *j*
 - `b[j]` is the bias term for user *j*
 
+---
+
+### Notation Reference
+
+| Notation | Description | Python Variable |
+|----------|-------------|-----------------|
+| r(i,j) | 1 if user j rated movie i, 0 otherwise | R |
+| y(i,j) | Rating given by user j on movie i | Y |
+| **w**_j | Parameter vector for user j | W |
+| b_j | Bias parameter for user j | b |
+| **x**_i | Feature vector for movie i | X |
+| n_u | Number of users | num_users |
+| n_m | Number of movies | num_movies |
+| n | Number of features | num_features |
+
+---
+
 ### Cost Function
 
 The model minimizes a regularized mean squared error loss:
@@ -90,12 +110,43 @@ Where:
 - The first term measures prediction error on known ratings
 - The regularization term (λ) prevents overfitting by penalizing large parameter values
 
+> **Note:** The bias term `b` is not regularized, which is standard practice as biases should be free to capture baseline user preferences.
+
 #### Vectorized Implementation
 
 ```python
-j = (X @ W.T + b - Y) * R
-J = 0.5 * tf.reduce_sum(j ** 2) + (λ / 2) * (tf.reduce_sum(X ** 2) + tf.reduce_sum(W ** 2))
+j = (tf.linalg.matmul(X, tf.transpose(W)) + b - Y) * R
+J = 0.5 * tf.reduce_sum(j ** 2) + (lambda_ / 2) * (tf.reduce_sum(X ** 2) + tf.reduce_sum(W ** 2))
 ```
+
+#### Default Hyperparameters
+
+| Parameter | Default Value | Description |
+|-----------|---------------|-------------|
+| λ (lambda_) | 1.0 | Regularization parameter |
+| Learning rate | 0.1 | Step size for gradient descent |
+| Iterations | 100 | Number of training iterations |
+| Features | 100 | Latent feature dimensions |
+
+---
+
+### Normalization
+
+Normalization addresses the **cold-start problem** for new users:
+- Without normalization, predictions for a new user (with no ratings) would be near zero
+- By subtracting the mean rating per movie and later restoring it, unrated movies default to the average rating
+- This provides reasonable baseline predictions even with sparse data
+
+```python
+# Normalization formula
+Ymean = sum(Y * R, axis=1) / (sum(R, axis=1) + ε)  # Mean per movie (only rated entries)
+Ynorm = Y - Ymean * R  # Subtract mean only where ratings exist
+
+# After prediction, restore the mean
+predictions = X @ W.T + b + Ymean
+```
+
+---
 
 ### Training Process
 
@@ -110,6 +161,26 @@ Training Flow:
 │ Normalize Y │ -> │ Initialize   │ -> │ Gradient    │ -> │ Predict &  │
 │   Matrix    │    │   W, X, b    │    │   Descent   │    │ Recommend  │
 └─────────────┘    └──────────────┘    └─────────────┘    └────────────┘
+```
+
+---
+
+### Adding New User Ratings
+
+When a new user provides ratings, they're integrated into the matrices as a new column:
+
+```python
+# Add new user's ratings as first column
+Y = np.c_[my_ratings, Y]  # Shape: (n_movies, n_users+1)
+R = np.c_[(my_ratings != 0).astype(int), R]
+
+# Normalize with the new user included
+Ynorm, Ymean = normalizeRatings(Y, R)
+
+# Train the model...
+
+# After training, new user's predictions are in column 0
+my_predictions = (X @ W.T + b + Ymean)[:, 0]
 ```
 
 ---

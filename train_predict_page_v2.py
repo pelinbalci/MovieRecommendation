@@ -8,7 +8,7 @@ from tensorflow import keras
 
 def show_train_predict_page_v2():
     st.title("Personalized Movie Recommendation")
-    st.subheader("with TensorFlow and Content Based Filtering")
+    st.subheader("with TensorFlow and Collaborative Filtering")
     st.write("Go to Tutorial Page for Quick Start")
 
     iteration_number = st.session_state.get("iteration_number", 100)
