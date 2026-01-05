@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [2.1.0] - 2025-01-05
+
+### Added
+Animated progress bar during model training with status messages
+
+Redesigned Explore page with interactive visualizations:
+  - Key metrics dashboard (users, movies, ratings, avg rating)
+  - Top rated movies horizontal bar chart
+  - Genre distribution chart with color gradient
+  - Most popular movie analysis with rating trend over time
+  - Interactive scatter plot with filters (minimum ratings, rating range)
+  - Rating distribution histogram
+
+
+Improved Recommendation page with step-by-step flow:
+* Clear 3-step structure (Customize → Rate → Get Results)
+* Better labels and helper text
+* Info box for new users
+* Cleaner UI with dividers
+
+### Changed
+
+* Recommendation page text from informal to professional tone
+* Slider labels simplified (removed ALL CAPS)
+* Tutorial page completely rewritten with better structure
+* References page redesigned with sections and links
+
+
 ## [2.0.1] - 2025-01-04
 
 ### Fixed
@@ -71,11 +99,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Version History Summary
 
-| Version | Date | Highlights |
-|---------|------|------------|
+| Version | Date       | Highlights |
+|---------|------------|------------|
+| **v2.1.0** | 2025-01-05 |Redesigned Explore page, animated training progress, improved UX |
 | 2.0.1 | 2025-01-04 | Terminology fixes, enhanced documentation |
-| 2.0.0 | - | Major documentation update, README overhaul |
-| 1.0.0 | - | Initial release with core functionality |
+| 2.0.0 | -          | Major documentation update, README overhaul |
+| 1.0.0 | -          | Initial release with core functionality |
 
 ---
 
