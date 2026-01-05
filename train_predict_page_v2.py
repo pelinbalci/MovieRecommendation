@@ -99,18 +99,45 @@ def show_train_predict_page_v2():
 
     if train_button:
         st.markdown("---")
-        st.info("Thank you! Please wait while we find the best movies for you...")
-        st.write("The model is being trained with your preferences.")
 
+        # Animated loading state
+        st.subheader("🎬 Finding Your Perfect Movies...")
+
+        # Create progress bar and status text
+        progress_bar = st.progress(0)
+        status_text = st.empty()
+
+        # Step 1: Preparing data
+        status_text.text("📊 Preparing your ratings...")
         my_rated = [i for i in range(len(my_ratings)) if my_ratings[i] > 0]
         Y = np.c_[my_ratings, Y]
         R = np.c_[(my_ratings != 0).astype(int), R]
+        progress_bar.progress(20)
+
+        # Step 2: Normalizing
+        status_text.text("⚖️ Normalizing data...")
         Ynorm, Ymean = utils.normalizeRatings(Y, R)
+        progress_bar.progress(40)
+
+        # Step 3: Training model
+        status_text.text("🧠 Training the model with your preferences...")
+        progress_bar.progress(60)
         W, X, b = utils.train_data(Y, Ynorm, R, selected_optimizer, iteration_number, feature_number)
+        progress_bar.progress(80)
 
+        # Step 4: Generating predictions
+        status_text.text("🎯 Generating personalized recommendations...")
         my_predictions = utils.prediction(W, X, b, Ymean, my_ratings, movieList)
+        progress_bar.progress(100)
 
+        # Clear progress indicators
+        status_text.text("✅ Complete!")
+
+        # Show results
         st.markdown("---")
-        st.subheader("Your Recommendations")
+        st.subheader("🎉 Your Recommendations")
         st.write("Based on your ratings, we think you'll enjoy these movies:")
         utils.give_recommendation(my_predictions, my_rated, movieList, all_genres_df_2)
+
+        # Success message
+        st.success("Recommendations generated successfully!")
