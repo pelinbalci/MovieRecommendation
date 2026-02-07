@@ -1,6 +1,6 @@
-streamlit>=1.19,<2
-tensorflow~=2.10.0
-numpy~=1.22.3
-pandas~=1.4.2
-matplotlib~=3.6.2
-altair~=4.2.0
+streamlit>=1.30
+tensorflow>=2.20
+numpy>=1.26
+pandas>=2.1
+matplotlib>=3.8
+altair>=5.2
