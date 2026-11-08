@@ -7,17 +7,13 @@ from tutorial import show_tutorial
 from train_predict_page_v2 import show_train_predict_page_v2
 from train_predict_page_v3 import show_train_predict_page_v3
 
-page = st.sidebar.selectbox("Pages", ("Recommendation_New",
-                                      "Recommendation"
+page = st.sidebar.selectbox("Pages", ("Recommendation",
                                       "Tune the Model",
                                       "Explore",
                                       "Tutorial",
                                       "References"))
 
 if page == "Recommendation":
-    show_train_predict_page_v2()
-
-if page == "Recommendation_New":
     show_train_predict_page_v3()
 
 elif page == "Tune the Model":
